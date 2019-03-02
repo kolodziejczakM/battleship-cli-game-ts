@@ -1,10 +1,15 @@
 import { Widgets } from 'blessed';
 export interface IScene {
-    node: Widgets.BoxElement;
-    onInit: () => void;
+    start: () => void;
+    end: () => void;
 }
 export default class Scene implements IScene {
-    node: Widgets.BoxElement;
-    onInit: () => void;
-    constructor(node: Widgets.BoxElement, onInit: () => void);
+    private node;
+    private childComponents;
+    private onInitCallback;
+    private windowBox;
+    constructor(node: Widgets.BoxElement, childComponents: Array<Widgets.BoxElement | Widgets.TextElement>, onInitCallback: () => void, windowBox: Widgets.BoxElement);
+    private onInit;
+    start(): void;
+    end(): void;
 }

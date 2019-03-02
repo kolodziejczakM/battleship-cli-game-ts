@@ -12,15 +12,8 @@ const screenBox = blessed_1.default.screen({
 class Screen {
     constructor(screenBox, window) {
         this.screenBox = screenBox;
-        this.date = Date.now();
-        this.windowBox = window();
-    }
-    startScene(scene) {
-        this.windowBox.append(scene.node);
-        scene.onInit();
-    }
-    removeScene(scene) {
-        this.windowBox.remove(scene.node);
+        this.window = window;
+        this.windowBox = this.window.render();
     }
     renderWindow() {
         this.screenBox.append(this.windowBox);

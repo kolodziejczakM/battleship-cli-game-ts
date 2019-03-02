@@ -3,8 +3,7 @@
  */
 
 import blessed, { Widgets } from 'blessed';
-import Window from './Window';
-import { IScene } from './Scene';
+import window from './Window';
 
 const screenBox = blessed.screen({
     title: 'Battleship by Marcin Kołodziejczak',
@@ -13,33 +12,12 @@ const screenBox = blessed.screen({
 
 interface IScreen {
     /**
-     * Introduces scene by adding scene node to window node instance 
-     * and calling scene's onInit hook
-     *
-     * @param {IScene} scene
-     * @memberof Screen
-     */
-    startScene(scene: IScene): void;
-    /**
-     * Deleting window node from screen instance
-     *
-     * @param {Scene} scene
-     * @memberof Screen
-     */
-    removeScene(scene: IScene): void;
-    /**
      * Appending window node on screen instance
      *
      * @memberof Screen
      */
     renderWindow(): void;
 }
-
-// abstract class AbstractScreen implements IScreen {
-//     public abstract startScene(scene: IScene): void;
-//     protected abstract removeScene(scene: IScene): void;
-//     public abstract renderWindow(): void;
-// }
 
 /**
  * Singleton class represeting whole terminal viewport.
@@ -48,26 +26,13 @@ interface IScreen {
  * @implements {IScreen}
  */
 export class Screen implements IScreen {
-    private readonly windowBox: Widgets.BoxElement;
-    public date = Date.now();
+    public readonly windowBox: Widgets.BoxElement;
 
     constructor(
-        public screenBox: Widgets.Screen,
-        window: Function
+        public readonly screenBox: Widgets.Screen,
+        private window: { render: Function }
     ) {
-        // TODO: Window has to be a class and instance has to be passed. Shouldn't be called here.
-        this.windowBox = window();
-    }
-    
-    // TODO: not Screen responsibility
-    public startScene(scene: IScene): void {
-        this.windowBox.append(scene.node);
-        scene.onInit();
-    }
-
-    // TODO: not Screen responsibility
-    public removeScene(scene: IScene): void {
-        this.windowBox.remove(scene.node);
+        this.windowBox = this.window.render();
     }
 
     public renderWindow(): void {
@@ -76,4 +41,4 @@ export class Screen implements IScreen {
     }
 }
 
-export default new Screen(screenBox, Window);
+export default new Screen(screenBox, window);

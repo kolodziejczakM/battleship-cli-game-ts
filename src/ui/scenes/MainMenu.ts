@@ -3,14 +3,13 @@
  */
 
 import { box } from 'blessed';
-import Screen from '../Screen';
-import Window from '../Window';
+import screen from '../Screen';
 import Scene from '../Scene';
 import HeadingText from '../components/MainMenu/HeadingText';
 import SelectBattlefieldList from '../components/MainMenu/SelectBattlefieldList';
 
 export const MainMenu = box({
-    parent: Window(),
+    parent: screen.windowBox,
     top: '10%',
     left: 'center',
     width: '99%',
@@ -22,16 +21,13 @@ export const MainMenu = box({
 
 // TODO: Think about it, that should be a part of app state (which scene is rendered??)
 const onInit = (): void => {
-    MainMenu.append(HeadingText);
-    MainMenu.append(SelectBattlefieldList);
     SelectBattlefieldList.focus();
-    Screen.screenBox.render();
-
-    console.log('MainMenu onInit: ', Screen.date);
+    screen.screenBox.render();
 };
 
 export default new Scene(
     MainMenu,
-    // [Child, Components, will be, instantiated first on onInit, removed onRemove] render should be called after that.
-    onInit
+    [HeadingText, SelectBattlefieldList],
+    onInit,
+    screen.windowBox
 );

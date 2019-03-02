@@ -1,2 +1,6 @@
-declare const Window: () => import("blessed").Widgets.BoxElement;
-export default Window;
+import { Widgets } from 'blessed';
+declare class Window {
+    render(): Widgets.BoxElement;
+}
+declare const _default: Window;
+export default _default;

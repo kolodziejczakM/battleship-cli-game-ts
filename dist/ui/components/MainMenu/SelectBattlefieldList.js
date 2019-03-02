@@ -9,7 +9,7 @@ const SelectBattlefieldList = blessed_1.list({
     parent: MainMenu_1.MainMenu,
     left: 'center',
     width: '80%',
-    height: '20%',
+    height: '30%',
     items: ['10x10', '12x12', '14x14', '16x16'],
     border: {
         type: 'line'
