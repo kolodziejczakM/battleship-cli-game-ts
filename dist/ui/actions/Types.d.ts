@@ -1,2 +1,0 @@
-export declare const SET_CURRENT_SCENE = "SET_CURRENT_SCENE";
-export declare const SET_BATTLEFIELD_SIZE = "SET_BATTLEFIELD_SIZE";
