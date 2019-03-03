@@ -4,8 +4,8 @@
 
 import { list, Widgets as IWidgets } from 'blessed';
 import { MainMenu } from '../../scenes/MainMenu';
-import Screen from '../../Screen';
-import { setBattlefieldSize } from '../../actions/Creators';
+import Store from '../../Store';
+import { setBattlefieldSize, setCurrentScene } from '../../actions/Creators';
 
 const SelectBattlefieldList = list({
     mouse: false,
@@ -34,10 +34,9 @@ const SelectBattlefieldList = list({
 
 SelectBattlefieldList.on(
     'select',
-    (a: IWidgets.BoxElement) => {
-        console.log('chosen battlefield size: ', a.content);
-        Screen.store.dispatch(setBattlefieldSize(a.content));
-        console.log('Screen.store.getState(): ', Screen.store.getState());
+    (a: IWidgets.BoxElement): void => {
+        Store.dispatch(setBattlefieldSize(a.content));
+        // TODO: Continue here Store.dispatch(setCurrentScene())
     }
 );
 

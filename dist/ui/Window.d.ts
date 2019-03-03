@@ -1,6 +1,6 @@
-import { Widgets } from 'blessed';
+import { Widgets as IWidgets } from 'blessed';
 declare class Window {
-    render(): Widgets.BoxElement;
+    render(): IWidgets.BoxElement;
 }
 declare const _default: Window;
 export default _default;

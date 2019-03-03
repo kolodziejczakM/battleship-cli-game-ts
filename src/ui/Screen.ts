@@ -3,8 +3,6 @@
  */
 
 import blessed, { Widgets as IWidgets } from 'blessed';
-import { Store as IStore } from 'redux';
-import Store from './Store';
 import window from './Window';
 
 const screenBox = blessed.screen({
@@ -31,7 +29,6 @@ interface IScreen {
  */
 class Screen implements IScreen {
     constructor(
-        public readonly store: IStore,
         public readonly screenBox: IWidgets.Screen,
         public readonly windowBox: IWidgets.BoxElement
     ) {}
@@ -42,4 +39,4 @@ class Screen implements IScreen {
     }
 }
 
-export default new Screen(Store, screenBox, windowBox);
+export default new Screen(screenBox, windowBox);

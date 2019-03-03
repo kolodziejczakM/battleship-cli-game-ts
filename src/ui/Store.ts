@@ -4,16 +4,19 @@
 
 import { createStore, Reducer as IReducer } from 'redux';
 import { IAction } from './actions/Creators';
+import { SceneName } from './scenes';
 import { SET_CURRENT_SCENE, SET_BATTLEFIELD_SIZE } from './actions/Types';
 
-interface IState {
+export interface IState {
     battlefieldSize: string,
-    currentScene: string
+    currentScene: SceneName,
+    previousScene: SceneName
 }
 
 const initialState: IState = {
     battlefieldSize: '',
-    currentScene: 'MainMenu'
+    currentScene: 'MainMenu',
+    previousScene: 'MainMenu'
 };
 
 const rootReducer: IReducer = (state: IState = initialState, action: IAction<any>): IState => {
@@ -21,7 +24,8 @@ const rootReducer: IReducer = (state: IState = initialState, action: IAction<any
         case SET_CURRENT_SCENE:
             return {
                 ...state,
-                currentScene: action.payload
+                currentScene: action.payload,
+                previousScene: state.currentScene
             };
         case SET_BATTLEFIELD_SIZE:
             return {

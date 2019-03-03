@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const blessed_1 = require("blessed");
 const MainMenu_1 = require("../../scenes/MainMenu");
-const Screen_1 = __importDefault(require("../../Screen"));
+const Store_1 = __importDefault(require("../../Store"));
 const Creators_1 = require("../../actions/Creators");
 const SelectBattlefieldList = blessed_1.list({
     mouse: false,
@@ -31,9 +31,7 @@ const SelectBattlefieldList = blessed_1.list({
     }
 });
 SelectBattlefieldList.on('select', (a) => {
-    console.log('chosen battlefield size: ', a.content);
-    Screen_1.default.store.dispatch(Creators_1.setBattlefieldSize(a.content));
-    console.log('Screen.store.getState(): ', Screen_1.default.store.getState());
+    Store_1.default.dispatch(Creators_1.setBattlefieldSize(a.content));
 });
 exports.default = SelectBattlefieldList;
 //# sourceMappingURL=SelectBattlefieldList.js.map

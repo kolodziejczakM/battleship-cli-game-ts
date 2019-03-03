@@ -2,10 +2,10 @@
  * Copyright 2019 Marcin Kołodziejczak, MIT license
  */
 
-import { box, Widgets } from 'blessed';
+import { box, Widgets as IWidgets } from 'blessed';
 
 class Window {
-    public render(): Widgets.BoxElement {
+    public render(): IWidgets.BoxElement {
         return box({
             left: 'center',
             width: '90%',

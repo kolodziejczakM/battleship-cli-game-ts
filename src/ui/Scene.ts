@@ -1,4 +1,4 @@
-import { Widgets } from 'blessed';
+import { Widgets as IWidgets } from 'blessed';
 
 export interface IScene {
     /**
@@ -17,14 +17,14 @@ export interface IScene {
 
 export default class Scene implements IScene {
     constructor(
-        private node: Widgets.BoxElement,
-        private childComponents: Array<Widgets.BoxElement | Widgets.TextElement>,
+        private node: IWidgets.BoxElement,
+        private childComponents: Array<IWidgets.BoxElement | IWidgets.TextElement>,
         private onInitCallback: () => void,
-        private windowBox: Widgets.BoxElement
+        private windowBox: IWidgets.BoxElement
     ) {}
 
     private onInit(): void {
-        this.childComponents.forEach((childComponent: Widgets.BoxElement): void => {
+        this.childComponents.forEach((childComponent: IWidgets.BoxElement): void => {
             this.node.append(childComponent);
         });
 

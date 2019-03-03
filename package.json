@@ -16,7 +16,8 @@
     "docs:generate": "typedoc --out docs src",
     "test": "mocha -r ts-node/register tests/**/*.spec.ts",
     "dev": "tsc",
-    "dev:watch": "tsc -w"
+    "dev:watch": "tsc -w",
+    "start-game": "node dist/Main.js"
   },
   "dependencies": {
     "@types/blessed": "^0.1.10",

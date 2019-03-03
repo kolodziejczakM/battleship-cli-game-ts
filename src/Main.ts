@@ -9,16 +9,27 @@
 import program from 'commander';
 import registerCommands from './commands';
 import Screen from './ui/Screen';
-
-// TODO: import Scenes from './ui/Scenes';
-import MainMenu from './ui/scenes/MainMenu';
-
-Screen.store.subscribe(() => {
-    console.log('Something has changed, getState(): ', Screen.store.getState());
-});
+import Store from './ui/Store';
+import Scenes, { SceneName } from './ui/scenes';
 
 Screen.renderWindow();
-MainMenu.start();
+Scenes['MainMenu'].start();
+
+Store.subscribe(
+    (): void => {
+        const {
+            currentScene,
+            previousScene
+        } = Store.getState();
+
+        if (currentScene !== previousScene) {
+            Scenes[previousScene as SceneName].end();
+            Scenes[currentScene as SceneName].start();
+        }
+
+        console.log('Main.ts subscription: ', Store.getState());
+    }
+);
 
 Screen.screenBox.key(['escape', 'q', 'C-c'], () => process.exit(0));
 

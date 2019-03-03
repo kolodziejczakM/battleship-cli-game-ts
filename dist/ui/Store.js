@@ -4,12 +4,13 @@ const redux_1 = require("redux");
 const Types_1 = require("./actions/Types");
 const initialState = {
     battlefieldSize: '',
-    currentScene: 'MainMenu'
+    currentScene: 'MainMenu',
+    previousScene: 'MainMenu'
 };
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         case Types_1.SET_CURRENT_SCENE:
-            return Object.assign({}, state, { currentScene: action.payload });
+            return Object.assign({}, state, { currentScene: action.payload, previousScene: state.currentScene });
         case Types_1.SET_BATTLEFIELD_SIZE:
             return Object.assign({}, state, { battlefieldSize: action.payload });
         default:

@@ -7,12 +7,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const commander_1 = __importDefault(require("commander"));
 const commands_1 = __importDefault(require("./commands"));
 const Screen_1 = __importDefault(require("./ui/Screen"));
-const MainMenu_1 = __importDefault(require("./ui/scenes/MainMenu"));
-Screen_1.default.store.subscribe(() => {
-    console.log('Something has changed, getState(): ', Screen_1.default.store.getState());
-});
+const Store_1 = __importDefault(require("./ui/Store"));
+const scenes_1 = __importDefault(require("./ui/scenes"));
 Screen_1.default.renderWindow();
-MainMenu_1.default.start();
+scenes_1.default['MainMenu'].start();
+Store_1.default.subscribe(() => {
+    const { currentScene, previousScene } = Store_1.default.getState();
+    if (currentScene !== previousScene) {
+        scenes_1.default[previousScene].end();
+        scenes_1.default[currentScene].start();
+    }
+    console.log('Main.ts subscription: ', Store_1.default.getState());
+});
 Screen_1.default.screenBox.key(['escape', 'q', 'C-c'], () => process.exit(0));
 commands_1.default();
 commander_1.default.version('1.0.0').parse(process.argv);
