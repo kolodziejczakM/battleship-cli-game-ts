@@ -1,4 +1,5 @@
 import { Widgets as IWidgets } from 'blessed';
+import { refreshScreen } from './Screen';
 
 export interface IScene {
     /**
@@ -23,6 +24,7 @@ export default class Scene implements IScene {
         private windowBox: IWidgets.BoxElement
     ) {}
 
+    @refreshScreen
     private onInit(): void {
         this.childComponents.forEach((childComponent: IWidgets.BoxElement): void => {
             this.node.append(childComponent);
@@ -32,12 +34,14 @@ export default class Scene implements IScene {
         // TODO: add decorator @rerenderAfter??
     }
 
+    @refreshScreen
     public start(): void {
         this.windowBox.append(this.node);
         this.onInit();
          // TODO: add decorator @rerenderAfter??
     }
 
+    @refreshScreen
     public end(): void {
         this.windowBox.remove(this.node);
         // TODO: add decorator @rerenderAfter??

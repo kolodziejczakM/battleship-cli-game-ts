@@ -26,7 +26,7 @@ Store.subscribe(
         if (currentScene !== previousScene) {
             scenes[previousScene as SceneName].end();
             scenes[currentScene as SceneName].start();
-            screen.screenBox.render();
+
             console.log('Scene has been changed! Current state: ', Store.getState());
         }
     }

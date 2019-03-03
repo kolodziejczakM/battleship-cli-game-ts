@@ -12,6 +12,22 @@ const screenBox = blessed.screen({
 
 const windowBox = window.render();
 
+/** TODO: description */
+export const refreshScreen = (
+    target: any,
+    propertyKey: string,
+    descriptor: PropertyDescriptor
+): void => {
+    const originalMethod = descriptor.value;
+
+    descriptor.value = function(...args: any[]) {
+        const outcome = originalMethod.apply(this, args);
+        screenBox.render();
+
+        return outcome;
+    };
+};
+
 interface IScreen {
     /**
      * Appending window node on screen instance
@@ -19,6 +35,7 @@ interface IScreen {
      * @memberof Screen
      */
     renderWindow(): void;
+    screenBox: IWidgets.Screen;
 }
 
 /**
