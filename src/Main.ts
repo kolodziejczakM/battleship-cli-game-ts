@@ -13,7 +13,7 @@ import Store from './ui/Store';
 import Scenes, { SceneName } from './ui/scenes';
 
 Screen.renderWindow();
-Scenes['MainMenu'].start();
+Scenes['BattlefieldSizeMenu'].start();
 
 Store.subscribe(
     (): void => {
@@ -25,9 +25,8 @@ Store.subscribe(
         if (currentScene !== previousScene) {
             Scenes[previousScene as SceneName].end();
             Scenes[currentScene as SceneName].start();
+            console.log('Scene has been changed! Current state: ', Store.getState());
         }
-
-        console.log('Main.ts subscription: ', Store.getState());
     }
 );
 

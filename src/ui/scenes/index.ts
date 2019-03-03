@@ -1,11 +1,14 @@
-import MainMenu from './MainMenu';
+import BattlefieldSizeMenu from './BattlefieldSizeMenu';
+import BattleshipsSetup from './BattleshipsSetup';
+
 import { IScene } from '../Scene';
 
-export type SceneName = 'MainMenu';
+export type SceneName = 'BattlefieldSizeMenu' | 'BattleshipsSetup';
 type Scenes = { [S in SceneName]: IScene };
 
 const scenes: Scenes = {
-    MainMenu
+    BattlefieldSizeMenu,
+    BattleshipsSetup
 };
 
 export default scenes;

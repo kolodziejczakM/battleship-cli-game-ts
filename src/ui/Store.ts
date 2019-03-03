@@ -15,8 +15,8 @@ export interface IState {
 
 const initialState: IState = {
     battlefieldSize: '',
-    currentScene: 'MainMenu',
-    previousScene: 'MainMenu'
+    currentScene: 'BattlefieldSizeMenu',
+    previousScene: 'BattlefieldSizeMenu'
 };
 
 const rootReducer: IReducer = (state: IState = initialState, action: IAction<any>): IState => {

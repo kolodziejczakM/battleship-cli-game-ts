@@ -3,15 +3,16 @@
  */
 
 import { list, Widgets as IWidgets } from 'blessed';
-import { MainMenu } from '../../scenes/MainMenu';
+import { BattlefieldSizeMenu } from '../../scenes/BattlefieldSizeMenu';
 import Store from '../../Store';
 import { setBattlefieldSize, setCurrentScene } from '../../actions/Creators';
+import { SceneName } from '../../scenes';
 
 const SelectBattlefieldList = list({
     mouse: false,
     keys: true,
     top: '20%',
-    parent: MainMenu,
+    parent: BattlefieldSizeMenu,
     left: 'center',
     width: '80%',
     height: '30%',
@@ -35,8 +36,8 @@ const SelectBattlefieldList = list({
 SelectBattlefieldList.on(
     'select',
     (a: IWidgets.BoxElement): void => {
-        Store.dispatch(setBattlefieldSize(a.content));
-        // TODO: Continue here Store.dispatch(setCurrentScene())
+        Store.dispatch(setBattlefieldSize(a.content as SceneName));
+        Store.dispatch(setCurrentScene('BattleshipsSetup'))
     }
 );
 

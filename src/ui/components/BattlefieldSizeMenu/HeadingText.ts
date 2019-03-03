@@ -3,10 +3,10 @@
  */
 
 import { text } from 'blessed';
-import { MainMenu } from '../../scenes/MainMenu';
+import { BattlefieldSizeMenu } from '../../scenes/BattlefieldSizeMenu';
 
 const HeadingText = text({
-    parent: MainMenu,
+    parent: BattlefieldSizeMenu,
     top: '15%',
     left: 'center',
     width: '80%',
