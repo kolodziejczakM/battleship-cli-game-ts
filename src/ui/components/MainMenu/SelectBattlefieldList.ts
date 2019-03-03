@@ -2,8 +2,10 @@
  * Copyright 2019 Marcin Kołodziejczak, MIT license
  */
 
-import { list, Widgets } from 'blessed';
+import { list, Widgets as IWidgets } from 'blessed';
 import { MainMenu } from '../../scenes/MainMenu';
+import Screen from '../../Screen';
+import { setBattlefieldSize } from '../../actions/Creators';
 
 const SelectBattlefieldList = list({
     mouse: false,
@@ -32,9 +34,10 @@ const SelectBattlefieldList = list({
 
 SelectBattlefieldList.on(
     'select',
-    (a: Widgets.BoxElement) => {
-        console.log('chosen: ', a.content);
-        // TODO: store answer
+    (a: IWidgets.BoxElement) => {
+        console.log('chosen battlefield size: ', a.content);
+        Screen.store.dispatch(setBattlefieldSize(a.content));
+        console.log('Screen.store.getState(): ', Screen.store.getState());
     }
 );
 

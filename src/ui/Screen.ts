@@ -2,13 +2,17 @@
  * Copyright 2019 Marcin Kołodziejczak, MIT license
  */
 
-import blessed, { Widgets } from 'blessed';
+import blessed, { Widgets as IWidgets } from 'blessed';
+import { Store as IStore } from 'redux';
+import Store from './Store';
 import window from './Window';
 
 const screenBox = blessed.screen({
     title: 'Battleship by Marcin Kołodziejczak',
     smartCSR: true
 });
+
+const windowBox = window.render();
 
 interface IScreen {
     /**
@@ -20,20 +24,17 @@ interface IScreen {
 }
 
 /**
- * Singleton class represeting whole terminal viewport.
+ * Singleton class represeting whole terminal tab (viewport).
  *
  * @class Screen
  * @implements {IScreen}
  */
-export class Screen implements IScreen {
-    public readonly windowBox: Widgets.BoxElement;
-
+class Screen implements IScreen {
     constructor(
-        public readonly screenBox: Widgets.Screen,
-        private window: { render: Function }
-    ) {
-        this.windowBox = this.window.render();
-    }
+        public readonly store: IStore,
+        public readonly screenBox: IWidgets.Screen,
+        public readonly windowBox: IWidgets.BoxElement
+    ) {}
 
     public renderWindow(): void {
         this.screenBox.append(this.windowBox);
@@ -41,4 +42,4 @@ export class Screen implements IScreen {
     }
 }
 
-export default new Screen(screenBox, window);
+export default new Screen(Store, screenBox, windowBox);

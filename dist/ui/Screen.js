@@ -4,22 +4,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const blessed_1 = __importDefault(require("blessed"));
+const Store_1 = __importDefault(require("./Store"));
 const Window_1 = __importDefault(require("./Window"));
 const screenBox = blessed_1.default.screen({
     title: 'Battleship by Marcin Kołodziejczak',
     smartCSR: true
 });
+const windowBox = Window_1.default.render();
 class Screen {
-    constructor(screenBox, window) {
+    constructor(store, screenBox, windowBox) {
+        this.store = store;
         this.screenBox = screenBox;
-        this.window = window;
-        this.windowBox = this.window.render();
+        this.windowBox = windowBox;
     }
     renderWindow() {
         this.screenBox.append(this.windowBox);
         this.screenBox.render();
     }
 }
-exports.Screen = Screen;
-exports.default = new Screen(screenBox, Window_1.default);
+exports.default = new Screen(Store_1.default, screenBox, windowBox);
 //# sourceMappingURL=Screen.js.map

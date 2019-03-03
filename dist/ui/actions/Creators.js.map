@@ -1,0 +1,1 @@
+{"version":3,"file":"Creators.js","sourceRoot":"","sources":["../../../src/ui/actions/Creators.ts"],"names":[],"mappings":";;AAIA,mCAAkE;AAWrD,QAAA,eAAe,GAA2B,CAAC,OAAO,EAAE,EAAE;IAC/D,OAAO;QACH,IAAI,EAAE,yBAAiB;QACvB,OAAO;KACV,CAAC;AACN,CAAC,CAAC;AAEW,QAAA,kBAAkB,GAA2B,CAAC,OAAO,EAAE,EAAE;IAClE,OAAO;QACH,IAAI,EAAE,4BAAoB;QAC1B,OAAO;KACV,CAAC;AACN,CAAC,CAAC"}

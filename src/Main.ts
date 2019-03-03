@@ -9,13 +9,16 @@
 import program from 'commander';
 import registerCommands from './commands';
 import Screen from './ui/Screen';
+
 // TODO: import Scenes from './ui/Scenes';
 import MainMenu from './ui/scenes/MainMenu';
 
+Screen.store.subscribe(() => {
+    console.log('Something has changed, getState(): ', Screen.store.getState());
+});
+
 Screen.renderWindow();
 MainMenu.start();
-
-// TODO: reduxStore.subscribe(currentScene => Scenes[currentScene].start(currentScene));
 
 Screen.screenBox.key(['escape', 'q', 'C-c'], () => process.exit(0));
 
