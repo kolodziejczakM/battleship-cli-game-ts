@@ -14,7 +14,7 @@ export const BattleshipsSetup = box({
     width: '99%',
     style: {
         fg: '#ffffff',
-        bg: 'blue'
+        bg: 'green'
     }
 });
 

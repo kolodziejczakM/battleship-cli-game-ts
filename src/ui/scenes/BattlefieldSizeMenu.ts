@@ -21,7 +21,6 @@ export const BattlefieldSizeMenu = box({
 
 const onInit = (): void => {
     SelectBattlefieldList.focus();
-    screen.screenBox.render();
 };
 
 export default new Scene(

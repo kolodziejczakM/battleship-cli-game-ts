@@ -8,12 +8,13 @@
 
 import program from 'commander';
 import registerCommands from './commands';
-import Screen from './ui/Screen';
+import screen from './ui/Screen';
 import Store from './ui/Store';
-import Scenes, { SceneName } from './ui/scenes';
+import scenes, { SceneName } from './ui/scenes';
 
-Screen.renderWindow();
-Scenes['BattlefieldSizeMenu'].start();
+screen.renderWindow();
+scenes['BattlefieldSizeMenu'].start();
+screen.screenBox.render();
 
 Store.subscribe(
     (): void => {
@@ -23,14 +24,15 @@ Store.subscribe(
         } = Store.getState();
 
         if (currentScene !== previousScene) {
-            Scenes[previousScene as SceneName].end();
-            Scenes[currentScene as SceneName].start();
+            scenes[previousScene as SceneName].end();
+            scenes[currentScene as SceneName].start();
+            screen.screenBox.render();
             console.log('Scene has been changed! Current state: ', Store.getState());
         }
     }
 );
 
-Screen.screenBox.key(['escape', 'q', 'C-c'], () => process.exit(0));
+screen.screenBox.key(['escape', 'q', 'C-c'], () => process.exit(0));
 
 registerCommands();
 program.version('1.0.0').parse(process.argv);

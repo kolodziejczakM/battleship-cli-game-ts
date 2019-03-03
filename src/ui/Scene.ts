@@ -29,14 +29,17 @@ export default class Scene implements IScene {
         });
 
         this.onInitCallback();
+        // TODO: add decorator @rerenderAfter??
     }
 
     public start(): void {
         this.windowBox.append(this.node);
         this.onInit();
+         // TODO: add decorator @rerenderAfter??
     }
 
     public end(): void {
         this.windowBox.remove(this.node);
+        // TODO: add decorator @rerenderAfter??
     }
 }
