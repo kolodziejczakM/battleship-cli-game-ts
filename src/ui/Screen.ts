@@ -12,7 +12,13 @@ const screenBox = blessed.screen({
 
 const windowBox = window.render();
 
-/** TODO: description */
+/**
+ * It refreshes screen (re-render) which is needed to display new things on it
+ * 
+ * @param target - Class which contains decorated method
+ * @param propertyKey - Method name on which it's used
+ * @param descriptor - descriptor object which contains method to decorate
+ */
 export const refreshScreen = (
     target: any,
     propertyKey: string,

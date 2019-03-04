@@ -5,6 +5,7 @@
 import { box } from 'blessed';
 import screen from '../Screen';
 import Scene from '../Scene';
+import SeaField from '../components/BattleshipsSetup/SeaField';
 
 export const BattleshipsSetup = box({
     parent: screen.windowBox,
@@ -20,7 +21,7 @@ export const BattleshipsSetup = box({
 
 export default new Scene(
     BattleshipsSetup,
-    [],
+    [SeaField('10%', '10%', '10%')],
     () => {},
     screen.windowBox
 );

@@ -4,7 +4,18 @@
 
 import { box, Widgets as IWidgets } from 'blessed';
 
-class Window {
+interface IWindow {
+    /**
+     * It returns windowBox element which
+     * is a frame for all game-connected components
+     *
+     * @returns {IWidgets.BoxElement}
+     * @memberof IWindow
+     */
+    render(): IWidgets.BoxElement;
+}
+
+class Window implements IWindow {
     public render(): IWidgets.BoxElement {
         return box({
             left: 'center',
@@ -22,7 +33,7 @@ class Window {
                     bg: '#000'
                 }
             }
-        })
+        });
     }
 }
 

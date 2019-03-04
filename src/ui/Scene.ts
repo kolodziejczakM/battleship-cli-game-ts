@@ -1,15 +1,20 @@
+/*
+ * Copyright 2019 Marcin Kołodziejczak, MIT license
+ */
+
 import { Widgets as IWidgets } from 'blessed';
 import { refreshScreen } from './Screen';
 
 export interface IScene {
     /**
-     * TODO: 
+     * It appends scene to windowBox and
+     * calls onInit hook
      *
      * @memberof IScene
      */
     start: () => void;
     /**
-     * TODO:
+     * It removes scene from windowBox
      *
      * @memberof IScene
      */
@@ -24,26 +29,32 @@ export default class Scene implements IScene {
         private windowBox: IWidgets.BoxElement
     ) {}
 
+    /**
+     * It appends child components to scene
+     * and calls onInit callback afterwards
+     *
+     * @private
+     * @memberof Scene
+     */
     @refreshScreen
     private onInit(): void {
-        this.childComponents.forEach((childComponent: IWidgets.BoxElement): void => {
-            this.node.append(childComponent);
-        });
+        this.childComponents.forEach(
+            (childComponent: IWidgets.BoxElement): void => {
+                this.node.append(childComponent);
+            }
+        );
 
         this.onInitCallback();
-        // TODO: add decorator @rerenderAfter??
     }
 
     @refreshScreen
     public start(): void {
         this.windowBox.append(this.node);
         this.onInit();
-         // TODO: add decorator @rerenderAfter??
     }
 
     @refreshScreen
     public end(): void {
         this.windowBox.remove(this.node);
-        // TODO: add decorator @rerenderAfter??
     }
 }

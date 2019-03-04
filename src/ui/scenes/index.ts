@@ -1,3 +1,7 @@
+/*
+ * Copyright 2019 Marcin Kołodziejczak, MIT license
+ */
+
 import BattlefieldSizeMenu from './BattlefieldSizeMenu';
 import BattleshipsSetup from './BattleshipsSetup';
 
