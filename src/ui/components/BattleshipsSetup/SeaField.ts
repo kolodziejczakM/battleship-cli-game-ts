@@ -19,7 +19,8 @@ const SeaField = (dimension: string, top: string, left: string): IWidgets.BoxEle
             fg: '#fff',
             bg: '#0f0',
             border: {
-                fg: '#fff'
+                fg: '#f33',
+                bg: '#000'
             }
         }
     });

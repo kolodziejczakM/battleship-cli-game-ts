@@ -49,8 +49,8 @@ export default class Scene implements IScene {
 
     @refreshScreen
     public start(): void {
-        this.windowBox.append(this.node);
         this.onInit();
+        this.windowBox.append(this.node);
     }
 
     @refreshScreen
