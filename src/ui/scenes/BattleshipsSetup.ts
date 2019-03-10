@@ -8,14 +8,11 @@ import Scene from '../Scene';
 import SeaField from '../components/BattleshipsSetup/SeaField';
 import Store, { BattlefieldSize } from '../Store';
 
-const battleshipSetupWidth = 99;
-const battleshipSetupTop = 10;
-
 export const BattleshipsSetup = box({
     parent: screen.windowBox,
-    top: `${battleshipSetupTop}%`,
+    top: `10%`,
     left: '0%',
-    width: `${battleshipSetupWidth}%`,
+    width: `99%`,
     style: {
         fg: '#ffffff',
         bg: 'green'
@@ -30,11 +27,12 @@ interface IFieldPosition {
 const getSeaFieldUIPosition = (
     rowIndex: number,
     columnIndex: number,
-    seaFieldDimension: number,
-    setupTop: number
+    seaFieldDimension: number
 ): IFieldPosition => {
-    const left = columnIndex ? seaFieldDimension * columnIndex : columnIndex;
-    const top = rowIndex ? seaFieldDimension * columnIndex : setupTop;
+    const topPositionInitial = 0;
+
+    const left = columnIndex ? (seaFieldDimension * columnIndex) : columnIndex;
+    const top = rowIndex ? (seaFieldDimension * rowIndex) : topPositionInitial;
 
     return {
         top: `${top}%`,
@@ -44,8 +42,7 @@ const getSeaFieldUIPosition = (
 
 const getPreparedBattlefield = (
     battlefieldSize: BattlefieldSize,
-    seaFieldDimension: number,
-    setupTop: number
+    seaFieldDimension: number
 ): IFieldPosition[][] => {
     const row: void[] = [...Array(battlefieldSize)];
 
@@ -67,8 +64,7 @@ const getPreparedBattlefield = (
                 return getSeaFieldUIPosition(
                     rowIndex,
                     columnIndex,
-                    seaFieldDimension,
-                    setupTop
+                    seaFieldDimension
                 );
             });
 
@@ -78,26 +74,22 @@ const getPreparedBattlefield = (
     );
 };
 
-// TODO: continue here
 const onInit = (): void => {
+    const totalWidth = 100;
     const seaFieldDimension: number =
-        Math.round(battleshipSetupWidth / Store.getState().battlefieldSize);
+        Math.round(totalWidth / Store.getState().battlefieldSize);
 
-    const battlefield = getPreparedBattlefield(
-        4, //Store.getState().battlefieldSize,
-        seaFieldDimension,
-        battleshipSetupTop
+    const battlefield: IFieldPosition[][] = getPreparedBattlefield(
+        Store.getState().battlefieldSize,
+        seaFieldDimension
     );
 
     battlefield.forEach((battlefieldRow: IFieldPosition[]) => {
         battlefieldRow.forEach((fieldPosition: IFieldPosition, index) => {
-            const el = SeaField(`${seaFieldDimension}%`, fieldPosition.top, fieldPosition.left);
-            BattleshipsSetup.append(el);
-            console.log('ADDED: ', index);
+            const seaField = SeaField(`${seaFieldDimension}%`, fieldPosition.top, fieldPosition.left, index);
+            BattleshipsSetup.append(seaField);
         });
     });
-
-    // console.log('children: ', BattleshipsSetup.children.length);
 };
 
 export default new Scene(BattleshipsSetup, [], onInit, screen.windowBox);

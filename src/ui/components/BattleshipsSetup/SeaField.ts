@@ -5,8 +5,9 @@
 import { box, Widgets as IWidgets } from 'blessed';
 import { BattleshipsSetup } from '../../scenes/BattleshipsSetup';
 
-const SeaField = (dimension: string, top: string, left: string): IWidgets.BoxElement =>
+const SeaField = (dimension: string, top: string, left: string, index: number): IWidgets.BoxElement =>
     box({
+        content: `index: ${index}`,
         parent: BattleshipsSetup,
         top,
         left,
@@ -17,7 +18,7 @@ const SeaField = (dimension: string, top: string, left: string): IWidgets.BoxEle
         },
         style: {
             fg: '#fff',
-            bg: '#0f0',
+            bg: 'orange',
             border: {
                 fg: '#f33',
                 bg: '#000'
