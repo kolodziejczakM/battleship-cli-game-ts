@@ -4,6 +4,7 @@
 
 import { SET_CURRENT_SCENE, SET_BATTLEFIELD_SIZE } from './Types';
 import { SceneName } from '../scenes';
+import { BattlefieldSize } from '../Store';
 
 export interface IAction<T> {
     type: string;
@@ -21,7 +22,7 @@ export const setCurrentScene: IActionCreator<SceneName> = (payload) => {
     };
 };
 
-export const setBattlefieldSize: IActionCreator<SceneName> = (payload) => {
+export const setBattlefieldSize: IActionCreator<BattlefieldSize> = (payload) => {
     return {
         type: SET_BATTLEFIELD_SIZE,
         payload

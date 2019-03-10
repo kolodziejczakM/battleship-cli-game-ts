@@ -17,7 +17,7 @@ const SeaField = (dimension: string, top: string, left: string): IWidgets.BoxEle
         },
         style: {
             fg: '#fff',
-            bg: '#000',
+            bg: '#0f0',
             border: {
                 fg: '#fff'
             }

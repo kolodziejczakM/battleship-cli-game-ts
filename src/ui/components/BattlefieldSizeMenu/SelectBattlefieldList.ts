@@ -4,16 +4,17 @@
 
 import { list, Widgets as IWidgets } from 'blessed';
 import { BattlefieldSizeMenu } from '../../scenes/BattlefieldSizeMenu';
-import Store, { battlefieldSizes } from '../../Store';
+import Store, { battlefieldSizes, BattlefieldSize } from '../../Store';
 import { setBattlefieldSize, setCurrentScene } from '../../actions/Creators';
-import { SceneName } from '../../scenes';
+
+const dimensionSeparator = 'x';
 
 const getBattlefieldSizeLabels = (): string[] => {
     return Object.keys(battlefieldSizes).map(
         (sizeName: string): string => {
             const dimension = battlefieldSizes[sizeName];
 
-            return `${dimension}x${dimension}`;
+            return `${dimension}${dimensionSeparator}${dimension}`;
         }
     );
 };
@@ -46,7 +47,9 @@ const SelectBattlefieldList = list({
 SelectBattlefieldList.on(
     'select',
     (a: IWidgets.BoxElement): void => {
-        Store.dispatch(setBattlefieldSize(a.content as SceneName));
+        const [userChoice]: string[] = a.content.split(dimensionSeparator);
+
+        Store.dispatch(setBattlefieldSize(Number(userChoice) as BattlefieldSize));
         Store.dispatch(setCurrentScene('BattleshipsSetup'));
     }
 );

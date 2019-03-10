@@ -33,7 +33,7 @@ const getSeaFieldUIPosition = (
     seaFieldDimension: number,
     setupTop: number
 ): IFieldPosition => {
-    const left = columnIndex ? seaFieldDimension * columnIndex : 0; // TODO: remove that magic
+    const left = columnIndex ? seaFieldDimension * columnIndex : columnIndex;
     const top = rowIndex ? seaFieldDimension * columnIndex : setupTop;
 
     return {
@@ -49,19 +49,21 @@ const getPreparedBattlefield = (
 ): IFieldPosition[][] => {
     const row: void[] = [...Array(battlefieldSize)];
 
-    // TODO: type error
-    const area: void[][] = row.reduce((area: any[], row: void[], index: number): void[][] => {
-        area[index] = row;
-        return area;
-    }, []);
+    const area: void[][] = row.reduce(
+        (outcome: void[][], rowElement: void, index: number): void[][] => {
+            outcome[index] = row;
+            return outcome;
+        },
+        []
+    );
 
     return area.reduce(
         (
-            area: Array<void[] & IFieldPosition[]>,
-            row: void[],
+            area: IFieldPosition[][],
+            areaRow: void[],
             rowIndex: number
         ): IFieldPosition[][] => {
-            const rowMapped = row.map((field: void, columnIndex: number) => {
+            const rowMapped = areaRow.map((field: void, columnIndex: number) => {
                 return getSeaFieldUIPosition(
                     rowIndex,
                     columnIndex,
@@ -85,6 +87,8 @@ const onInit = (): void => {
         seaFieldDimension,
         battleshipSetupTop
     );
+
+    // TODO: continue here console.log('battlefield: ', battlefield);
 
     battlefield.forEach((battlefieldRow: IFieldPosition[]) => {
         battlefieldRow.forEach((fieldPosition: IFieldPosition) => {
