@@ -11,7 +11,7 @@ import SelectBattlefieldList from '../components/BattlefieldSizeMenu/SelectBattl
 export const BattlefieldSizeMenu = box({
     parent: screen.windowBox,
     top: '10%',
-    left: 'center',
+    left: '0%',
     width: '99%',
     style: {
         fg: '#ffffff',

@@ -7,11 +7,9 @@ import { IAction } from './actions/Creators';
 import { SceneName } from './scenes';
 import { SET_CURRENT_SCENE, SET_BATTLEFIELD_SIZE } from './actions/Types';
 
-// TODO: it's too generic to be in this file. Move it out.
-type valueof<T> = T[keyof T]
-
+export type BattlefieldSize = 10 | 12 | 14 | 16;
 interface IBattlefieldSizes {
-    [key: string]: number
+    [key: string]: BattlefieldSize
     tiny: 10,
     small: 12,
     medium: 14,
@@ -26,7 +24,7 @@ export const battlefieldSizes: IBattlefieldSizes = {
 };
 
 export interface IState {
-    battlefieldSize: valueof<IBattlefieldSizes>;
+    battlefieldSize: BattlefieldSize;
     currentScene: SceneName;
     previousScene: SceneName;
 }
