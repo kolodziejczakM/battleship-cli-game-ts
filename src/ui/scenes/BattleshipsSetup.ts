@@ -6,6 +6,8 @@ import { box } from 'blessed';
 import screen from '../Screen';
 import Scene from '../Scene';
 import SeaField from '../components/BattleshipsSetup/SeaField';
+import LegendField from '../components/BattleshipsSetup/LegendField';
+import LegendLabel from '../LegendLabel';
 import Store, { BattlefieldSize } from '../Store';
 
 export const BattleshipsSetup = box({
@@ -31,8 +33,8 @@ const getSeaFieldUIPosition = (
 ): IFieldPosition => {
     const topPositionInitial = 0;
 
-    const left = columnIndex ? (seaFieldDimension * columnIndex) : columnIndex;
-    const top = rowIndex ? (seaFieldDimension * rowIndex) : topPositionInitial;
+    const left = columnIndex ? seaFieldDimension * columnIndex : columnIndex;
+    const top = rowIndex ? seaFieldDimension * rowIndex : topPositionInitial;
 
     return {
         top: `${top}%`,
@@ -61,11 +63,7 @@ const getPreparedBattlefield = (
             rowIndex: number
         ): IFieldPosition[][] => {
             const rowMapped = areaRow.map((field: void, columnIndex: number) => {
-                return getSeaFieldUIPosition(
-                    rowIndex,
-                    columnIndex,
-                    seaFieldDimension
-                );
+                return getSeaFieldUIPosition(rowIndex, columnIndex, seaFieldDimension);
             });
 
             return [...area, rowMapped];
@@ -75,19 +73,48 @@ const getPreparedBattlefield = (
 };
 
 const onInit = (): void => {
+    const legendRowQuantity = 1;
+    const battlefieldSize = Store.getState().battlefieldSize + legendRowQuantity;
     const totalWidth = 100;
-    const seaFieldDimension: number =
-        Math.round(totalWidth / Store.getState().battlefieldSize);
+    const seaFieldDimension: number = Math.round(totalWidth / battlefieldSize);
 
-    const battlefield: IFieldPosition[][] = getPreparedBattlefield(
-        Store.getState().battlefieldSize,
+    const battlefieldData: IFieldPosition[][] = getPreparedBattlefield(
+        battlefieldSize,
         seaFieldDimension
     );
 
-    battlefield.forEach((battlefieldRow: IFieldPosition[]) => {
-        battlefieldRow.forEach((fieldPosition: IFieldPosition, index) => {
-            const seaField = SeaField(`${seaFieldDimension}%`, fieldPosition.top, fieldPosition.left, index);
-            BattleshipsSetup.append(seaField);
+    battlefieldData.forEach((battlefieldRow: IFieldPosition[], rowIndex: number) => {
+        battlefieldRow.forEach((fieldPosition: IFieldPosition, columnIndex) => {
+            const legendIndex = 0;
+            const legendLabel = new LegendLabel();
+            let battlefieldUnit;
+
+            if (rowIndex === legendIndex) {
+                battlefieldUnit = LegendField(
+                    `${seaFieldDimension}%`,
+                    fieldPosition.top,
+                    fieldPosition.left,
+                    legendLabel.getValue(columnIndex, 'column')
+                );
+            } else {
+                if (columnIndex === legendIndex) {
+                    battlefieldUnit = LegendField(
+                        `${seaFieldDimension}%`,
+                        fieldPosition.top,
+                        fieldPosition.left,
+                        legendLabel.getValue(rowIndex, 'row')
+                    );
+                } else {
+                    battlefieldUnit = SeaField(
+                        `${seaFieldDimension}%`,
+                        fieldPosition.top,
+                        fieldPosition.left,
+                        columnIndex
+                    );
+                }
+            }
+
+            BattleshipsSetup.append(battlefieldUnit);
         });
     });
 };

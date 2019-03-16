@@ -5,10 +5,15 @@
 import { box, Widgets as IWidgets } from 'blessed';
 import { BattleshipsSetup } from '../../scenes/BattleshipsSetup';
 
-const SeaField = (dimension: string, top: string, left: string, index: number): IWidgets.BoxElement =>
+const LegendField = (
+    dimension: string,
+    top: string,
+    left: string,
+    text: string
+): IWidgets.BoxElement =>
     box({
         tags: true,
-        content: `{center}index: ${index}{/center}`,
+        content: `{center}${text}{/center}`,
         parent: BattleshipsSetup,
         top,
         left,
@@ -27,4 +32,4 @@ const SeaField = (dimension: string, top: string, left: string, index: number): 
         }
     });
 
-export default SeaField;
+export default LegendField;
