@@ -1,6 +1,6 @@
 type Variant = 'row' | 'column';
 
-interface ILegendLabel {
+export interface ILegendLabel {
     /**
      * It returns label for given index and variant (row | column)
      *

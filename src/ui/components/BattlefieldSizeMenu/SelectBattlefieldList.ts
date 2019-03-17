@@ -4,20 +4,17 @@
 
 import { list, Widgets as IWidgets } from 'blessed';
 import { BattlefieldSizeMenu } from '../../scenes/BattlefieldSizeMenu';
-import Store, { battlefieldSizes, BattlefieldSize } from '../../Store';
+import Store from '../../Store';
+import Battlefield, { BattlefieldSize } from '../../Battlefield';
 import { setBattlefieldSize, setCurrentScene } from '../../actions/Creators';
 
 const dimensionSeparator = 'x';
 
-const getBattlefieldSizeLabels = (): string[] => {
-    return Object.keys(battlefieldSizes).map(
-        (sizeName: string): string => {
-            const dimension = battlefieldSizes[sizeName];
-
-            return `${dimension}${dimensionSeparator}${dimension}`;
-        }
+const getBattlefieldSizeLabels = (): string[] =>
+    Object.entries(Battlefield.sizes).map(
+        ([_, value]: [string, BattlefieldSize]): string =>
+            `${value}${dimensionSeparator}${value}`
     );
-};
 
 const SelectBattlefieldList = list({
     mouse: false,

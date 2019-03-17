@@ -1,36 +1,52 @@
+import { Widgets as IWidgets } from 'blessed';
+import { ILegendLabel } from './LegendLabel';
+
 interface ISquarePosition {
     top: string;
     left: string;
 }
 
-export type BattlefieldSize = 10 | 12 | 14 | 16;
+export type BattlefieldSize = 6 | 8 | 10;
 
 interface IBattlefieldSizes {
     [key: string]: BattlefieldSize;
-    tiny: 10;
-    small: 12;
-    medium: 14;
-    large: 16;
+    small: 6;
+    medium: 8;
+    large: 10;
 }
 
-// TODO: continue work here & think about DI mechanism
-// interface IBattlefield {
-//     /**
-//      * It returns (absolute) position of every square which is building block of Battlefield
-//      *
-//      * @param {number} squareDimension
-//      * @returns {ISquarePosition[][]}
-//      * @memberof IBattlefield
-//      */
-//     getSquaresPositions(squareDimension: number): ISquarePosition[][];
-// }
+interface BattlefieldComponent {
+    (
+        squareDimension: string,
+        topPosition: string,
+        leftPosition: string,
+        label: string
+    ): IWidgets.BoxElement;
+}
 
-export default class Battlefield {
+interface IBattlefield {
+    /**
+     * It renders whole battlefield in parentComponent
+     * using legendSquareComponent and seaSquareComponent
+     *
+     * @param {BattlefieldComponent} legendSquareComponent
+     * @param {BattlefieldComponent} seaSquareComponent
+     * @param {IWidgets.BoxElement} parentComponent
+     * @memberof IBattlefield
+     */
+    build(
+        legendSquareComponent: BattlefieldComponent,
+        seaSquareComponent: BattlefieldComponent,
+        parentComponent: IWidgets.BoxElement
+    ): void;
+}
+
+export default class Battlefield implements IBattlefield {
+    private static readonly legendIndex = 0;
     public static readonly sizes: IBattlefieldSizes = {
-        tiny: 10,
-        small: 12,
-        medium: 14,
-        large: 16
+        small: 6,
+        medium: 8,
+        large: 10
     };
 
     constructor(
@@ -39,26 +55,54 @@ export default class Battlefield {
         private legendLabel: ILegendLabel
     ) {}
 
-    /**
-     * Returns calculated (absolute) position of one, particular square (battlefield building block)
-     *  described by given arguments
-     *
-     * @private
-     * @param {number} rowIndex
-     * @param {number} columnIndex
-     * @returns {ISquarePosition}
-     * @memberof Battlefield
-     */
-    private getSquarePosition(rowIndex: number, columnIndex: number): ISquarePosition {
-        const left = columnIndex ? this.squareDimension * columnIndex : columnIndex;
-        const top = rowIndex ? this.squareDimension * rowIndex : rowIndex;
+    public build(
+        legendSquareComponent: BattlefieldComponent,
+        seaSquareComponent: BattlefieldComponent,
+        parentComponent: IWidgets.BoxElement
+    ): void {
+        this.getSquaresPositions().forEach(
+            (battlefieldRow: ISquarePosition[], rowIndex: number) => {
+                battlefieldRow.forEach((fieldPosition: ISquarePosition, columnIndex) => {
+                    let battlefieldSquare;
 
-        return {
-            top: `${top}%`,
-            left: `${left}%`
-        };
+                    if (rowIndex === Battlefield.legendIndex) {
+                        battlefieldSquare = legendSquareComponent(
+                            `${this.squareDimension}%`,
+                            fieldPosition.top,
+                            fieldPosition.left,
+                            this.legendLabel.getValue(columnIndex, 'column')
+                        );
+                    } else {
+                        if (columnIndex === Battlefield.legendIndex) {
+                            battlefieldSquare = legendSquareComponent(
+                                `${this.squareDimension}%`,
+                                fieldPosition.top,
+                                fieldPosition.left,
+                                this.legendLabel.getValue(rowIndex, 'row')
+                            );
+                        } else {
+                            battlefieldSquare = seaSquareComponent(
+                                `${this.squareDimension}%`,
+                                fieldPosition.top,
+                                fieldPosition.left,
+                                String(columnIndex)
+                            );
+                        }
+                    }
+
+                    parentComponent.append(battlefieldSquare);
+                });
+            }
+        );
     }
 
+    /**
+     * Returns position of each square (battlefield building block) in battlefield
+     *
+     * @private
+     * @returns {ISquarePosition[][]}
+     * @memberof Battlefield
+     */
     private getSquaresPositions(): ISquarePosition[][] {
         const row: void[] = [...Array(this.battlefieldSize)];
 
@@ -86,42 +130,23 @@ export default class Battlefield {
         );
     }
 
-    public build(legendSquareComponent, seaSquareComponent, parentComponent) {
-        this.getSquaresPositions().forEach(
-            (battlefieldRow: ISquarePosition[], rowIndex: number) => {
-                battlefieldRow.forEach((fieldPosition: ISquarePosition, columnIndex) => {
-                    const legendIndex = 0;
-                    // const legendLabel = new LegendLabel();
-                    let battlefieldUnit;
+    /**
+     * Returns calculated (absolute) position of one, particular square (battlefield building block)
+     *  described by given arguments
+     *
+     * @private
+     * @param {number} rowIndex
+     * @param {number} columnIndex
+     * @returns {ISquarePosition}
+     * @memberof Battlefield
+     */
+    private getSquarePosition(rowIndex: number, columnIndex: number): ISquarePosition {
+        const left = columnIndex ? this.squareDimension * columnIndex : columnIndex;
+        const top = rowIndex ? this.squareDimension * rowIndex : rowIndex;
 
-                    if (rowIndex === legendIndex) {
-                        battlefieldUnit = LegendField(
-                            `${this.squareDimension}%`,
-                            fieldPosition.top,
-                            fieldPosition.left,
-                            this.legendLabel.getValue(columnIndex, 'column')
-                        );
-                    } else {
-                        if (columnIndex === legendIndex) {
-                            battlefieldUnit = LegendField(
-                                `${this.squareDimension}%`,
-                                fieldPosition.top,
-                                fieldPosition.left,
-                                this.legendLabel.getValue(rowIndex, 'row')
-                            );
-                        } else {
-                            battlefieldUnit = SeaField(
-                                `${this.squareDimension}%`,
-                                fieldPosition.top,
-                                fieldPosition.left,
-                                columnIndex
-                            );
-                        }
-                    }
-
-                    BattleshipsSetup.append(battlefieldUnit);
-                });
-            }
-        );
+        return {
+            top: `${top}%`,
+            left: `${left}%`
+        };
     }
 }

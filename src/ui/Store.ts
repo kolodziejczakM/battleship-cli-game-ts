@@ -6,23 +6,7 @@ import { createStore, Reducer as IReducer } from 'redux';
 import { IAction } from './actions/Creators';
 import { SceneName } from './scenes';
 import { SET_CURRENT_SCENE, SET_BATTLEFIELD_SIZE } from './actions/Types';
-
-// TODO: remove that feature-centric types from here & import them from Battlefield class file
-export type BattlefieldSize = 10 | 12 | 14 | 16;
-interface IBattlefieldSizes {
-    [key: string]: BattlefieldSize;
-    tiny: 10;
-    small: 12;
-    medium: 14;
-    large: 16;
-}
-
-export const battlefieldSizes: IBattlefieldSizes = {
-    tiny: 10,
-    small: 12,
-    medium: 14,
-    large: 16
-};
+import Battlefield, { BattlefieldSize } from './Battlefield';
 
 export interface IState {
     battlefieldSize: BattlefieldSize;
@@ -31,7 +15,7 @@ export interface IState {
 }
 
 const initialState: IState = {
-    battlefieldSize: battlefieldSizes.tiny,
+    battlefieldSize: Battlefield.sizes.tiny,
     currentScene: 'BattlefieldSizeMenu',
     previousScene: 'BattlefieldSizeMenu'
 };

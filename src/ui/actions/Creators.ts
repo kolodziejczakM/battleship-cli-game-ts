@@ -4,7 +4,7 @@
 
 import { SET_CURRENT_SCENE, SET_BATTLEFIELD_SIZE } from './Types';
 import { SceneName } from '../scenes';
-import { BattlefieldSize } from '../Store';
+import { BattlefieldSize } from '../Battlefield';
 
 export interface IAction<T> {
     type: string;
