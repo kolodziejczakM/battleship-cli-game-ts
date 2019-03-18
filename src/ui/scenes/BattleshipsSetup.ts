@@ -10,6 +10,7 @@ import LegendField from '../components/BattleshipsSetup/LegendField';
 import LegendLabel from '../LegendLabel';
 import Store from '../Store';
 import Battlefield from '../Battlefield';
+import SetupBar from '../components/BattleshipsSetup/SetupBar';
 
 export const BattleshipsSetup = box({
     parent: screen.windowBox,
@@ -34,13 +35,18 @@ const onInit = (): void => {
         new LegendLabel()
     );
 
-    battlefield.build(
+    battlefield.render(
         LegendField,
         SeaField,
         BattleshipsSetup
     );
+
+
 };
 
-// TODO: there are no childComponents in the components array here even this one have child components.
-// This thing should be explained, maybe param should have been called differently.
-export default new Scene(BattleshipsSetup, [], onInit, screen.windowBox);
+export default new Scene(
+    BattleshipsSetup,
+    [SetupBar('Battleship', 0, 5)],
+    onInit,
+    screen.windowBox
+);

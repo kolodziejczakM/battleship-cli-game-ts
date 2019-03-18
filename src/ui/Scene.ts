@@ -24,21 +24,21 @@ export interface IScene {
 export default class Scene implements IScene {
     constructor(
         private node: IWidgets.BoxElement,
-        private childComponents: Array<IWidgets.BoxElement | IWidgets.TextElement>,
+        private staticChildComponents: Array<IWidgets.BoxElement | IWidgets.TextElement>,
         private onInitCallback: () => void,
         private windowBox: IWidgets.BoxElement
     ) {}
 
     /**
-     * It appends child components to scene
-     * and calls onInit callback afterwards
+     * It appends child components (that don't have props which values need to be dynamically calculated)
+     * to scene and calls onInit callback afterwards
      *
      * @private
      * @memberof Scene
      */
     @refreshScreen
     private onInit(): void {
-        this.childComponents.forEach(
+        this.staticChildComponents.forEach(
             (childComponent: IWidgets.BoxElement): void => {
                 this.node.append(childComponent);
             }

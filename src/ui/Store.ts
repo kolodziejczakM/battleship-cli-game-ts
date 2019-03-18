@@ -8,16 +8,45 @@ import { SceneName } from './scenes';
 import { SET_CURRENT_SCENE, SET_BATTLEFIELD_SIZE } from './actions/Types';
 import Battlefield, { BattlefieldSize } from './Battlefield';
 
+type Ship = 'battleship' | 'destroyer';
+
+interface IShipState {
+    setupDone: boolean;
+    partsOnBattlefield: number;
+}
+
+interface IShipsContainer {
+    length: number;
+    ships: IShipState[];
+}
+
 export interface IState {
     battlefieldSize: BattlefieldSize;
     currentScene: SceneName;
     previousScene: SceneName;
+    currentShipToSetup: Ship;
+    battleships: IShipsContainer;
+    destroyers: IShipsContainer;
 }
+
+const initialShipState: IShipState = {
+    setupDone: false,
+    partsOnBattlefield: 0
+};
 
 const initialState: IState = {
     battlefieldSize: Battlefield.sizes.tiny,
     currentScene: 'BattlefieldSizeMenu',
-    previousScene: 'BattlefieldSizeMenu'
+    previousScene: 'BattlefieldSizeMenu',
+    currentShipToSetup: 'battleship',
+    battleships: {
+        length: 5,
+        ships: [initialShipState]
+    },
+    destroyers: {
+        length: 4,
+        ships: [initialShipState, initialShipState]
+    }
 };
 
 const rootReducer: IReducer = (

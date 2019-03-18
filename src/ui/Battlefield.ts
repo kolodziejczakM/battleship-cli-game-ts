@@ -34,7 +34,7 @@ interface IBattlefield {
      * @param {IWidgets.BoxElement} parentComponent
      * @memberof IBattlefield
      */
-    build(
+    render(
         legendSquareComponent: BattlefieldComponent,
         seaSquareComponent: BattlefieldComponent,
         parentComponent: IWidgets.BoxElement
@@ -55,7 +55,7 @@ export default class Battlefield implements IBattlefield {
         private legendLabel: ILegendLabel
     ) {}
 
-    public build(
+    public render(
         legendSquareComponent: BattlefieldComponent,
         seaSquareComponent: BattlefieldComponent,
         parentComponent: IWidgets.BoxElement
@@ -64,27 +64,24 @@ export default class Battlefield implements IBattlefield {
             (battlefieldRow: ISquarePosition[], rowIndex: number) => {
                 battlefieldRow.forEach((fieldPosition: ISquarePosition, columnIndex) => {
                     let battlefieldSquare;
+                    const { top, left } = fieldPosition;
+                    const dimension = `${this.squareDimension}%`;
+                    const commonProps = [dimension, top, left];
 
                     if (rowIndex === Battlefield.legendIndex) {
-                        battlefieldSquare = legendSquareComponent(
-                            `${this.squareDimension}%`,
-                            fieldPosition.top,
-                            fieldPosition.left,
+                        battlefieldSquare = (legendSquareComponent as Function)(
+                            ...commonProps,
                             this.legendLabel.getValue(columnIndex, 'column')
                         );
                     } else {
                         if (columnIndex === Battlefield.legendIndex) {
-                            battlefieldSquare = legendSquareComponent(
-                                `${this.squareDimension}%`,
-                                fieldPosition.top,
-                                fieldPosition.left,
+                            battlefieldSquare = (legendSquareComponent as Function)(
+                                ...commonProps,
                                 this.legendLabel.getValue(rowIndex, 'row')
                             );
                         } else {
-                            battlefieldSquare = seaSquareComponent(
-                                `${this.squareDimension}%`,
-                                fieldPosition.top,
-                                fieldPosition.left,
+                            battlefieldSquare = (seaSquareComponent as Function)(
+                                ...commonProps,
                                 String(columnIndex)
                             );
                         }
